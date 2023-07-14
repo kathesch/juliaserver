@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+    <script
+      src="https://unpkg.com/htmx.org@1.9.2"
+      integrity="sha384-L6OqL9pRWyyFU3+/bjdSri+iIphTN/bvYyM37tICVyOJkWZLpP2vGn6VUEXgzg6h"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <!-- <body class="flex justify-center items-center h-screen flex-col gap-2"> -->
+  <body
+    class="h-screen grid grid-cols-3 grid-rows-3 justify-center align-center bg-yellow-500 place-content-center"
+  >
+    <div class="col-start-2 row-start-1 self-end m-3">
+      <div id="youwin" hx-swap-oob="true">
+        <span
+          hx-put="/reset"
+          hx-target="#board"
+          class="p-2 text-white bg-purple-500 border-2 border-solid border-black rounded"
+          >Reset?</span
+        >
+      </div>
+    </div>
+
+    <div
+      id="board"
+      class="bg-red-500 border-2 border-black row-start-2 col-start-2"
+      style="
+        width: 300px;
+        height: 300px;
+        display: grid;
+        grid-template-columns: repeat(3, 100px);
+        grid-template-rows: repeat(3, 100px);
+      "
+    >
+      <div class="box" hx-put="/message" hx-target="#board" id="1"></div>
+      <div class="box" hx-put="/message" hx-target="#board" id="2"></div>
+      <div class="box" hx-put="/message" hx-target="#board" id="3"></div>
+      <div class="box" hx-put="/message" hx-target="#board" id="4"></div>
+      <div class="box" hx-put="/message" hx-target="#board" id="5"></div>
+      <div class="box" hx-put="/message" hx-target="#board" id="6"></div>
+      <div class="box" hx-put="/message" hx-target="#board" id="7"></div>
+      <div class="box" hx-put="/message" hx-target="#board" id="8"></div>
+      <div class="box" hx-put="/message" hx-target="#board" id="9"></div>
+    </div>
+  </body>
+</html>
