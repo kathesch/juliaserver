@@ -57,7 +57,7 @@ function game(A)
 end
 
 #evaluate the best move by playing a bunch of games
-function eval_move(A; max_iterations=100)
+function eval_move(A; max_iterations=10000)
     best_position = fill(max_iterations, 3, 3)
     for (i, v) in enumerate(A)
         if v == 0
@@ -66,13 +66,14 @@ function eval_move(A; max_iterations=100)
             best_position[i] = mapreduce(+, 1:max_iterations) do _
                 #runs a trial game given the move a[i]=-1.
                 #Converts the result to Int to find the move with the most O wins
-                copy(a) |> game |> Int
+                c = copy(a) |> game |> Int
+                if c == 1
+                    return 1
+                end
+                #if c == -1
+                return 0
             end
         end
     end
     return findmin(best_position)[2] |> Tuple
 end
-
-
-
-
