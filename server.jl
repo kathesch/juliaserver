@@ -38,7 +38,9 @@ function message(req)
     end
 
     A'[index] = 1
-    A[eval_move(A)...] = -1
+    if A[eval_move(A)...] == 0
+        A[eval_move(A)...] = -1
+    end
 
     return HTTP.Response(
         200,

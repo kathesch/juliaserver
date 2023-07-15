@@ -50,14 +50,16 @@ end
 
 #play a game using random moves
 function game(A)
+    i = 0
     while who_won(A) == Ongoing::Result
         A = random_move(A)
+        i += 1
     end
-    return who_won(A)
+    return (who_won(A), i)
 end
 
 #evaluate the best move by playing a bunch of games
-function eval_move(A; max_iterations=10000)
+function eval_move(A; max_iterations=1000)
     best_position = fill(max_iterations, 3, 3)
     for (i, v) in enumerate(A)
         if v == 0
@@ -66,14 +68,21 @@ function eval_move(A; max_iterations=10000)
             best_position[i] = mapreduce(+, 1:max_iterations) do _
                 #runs a trial game given the move a[i]=-1.
                 #Converts the result to Int to find the move with the most O wins
-                c = copy(a) |> game |> Int
-                if c == 1
-                    return 1
+                c = copy(a) |> game |> x -> (Int(x[1]), x[2])
+                if c[1] == 1 && c[2] == 1
+                    return 10000
+                end
+                # if c[1] == 1
+                #     return 1
+                # end
+                if c[1] == -1
+                    return -1
                 end
                 #if c == -1
                 return 0
             end
         end
     end
+    #display(best_position)
     return findmin(best_position)[2] |> Tuple
 end
