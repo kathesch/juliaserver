@@ -60,7 +60,7 @@ end
 
 #evaluate the best move by playing a bunch of games
 function eval_move(A; max_iterations=1000)
-    best_position = fill(max_iterations, 3, 3)
+    best_position = fill(Inf, 3, 3)
     for (i, v) in enumerate(A)
         if v == 0
             a = copy(A)
@@ -78,11 +78,17 @@ function eval_move(A; max_iterations=1000)
                 if c[1] == -1
                     return -1
                 end
+                if c[1] == 1
+                    return 1
+                end
                 #if c == -1
                 return 0
             end
+            
         end
+
     end
+    display(best_position)
     #display(best_position)
     return findmin(best_position)[2] |> Tuple
 end

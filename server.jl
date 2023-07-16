@@ -37,11 +37,13 @@ function message(req)
       </div>""" * board_update(A))
     end
 
-    A'[index] = 1
-    if A[eval_move(A)...] == 0
-        A[eval_move(A)...] = -1
+    if A'[index] == 0 
+        A'[index] = 1
+        if A[eval_move(A)...] == 0
+            A[eval_move(A)...] = -1
+        end
     end
-
+    
     return HTTP.Response(
         200,
         board_update(A)
@@ -54,8 +56,8 @@ HTTP.register!(router, "GET", "/style.css", s)
 HTTP.register!(router, "PUT", "/message", message)
 HTTP.register!(router, "PUT", "/reset", reset)
 
-close(server)
-server = HTTP.serve!() do request::HTTP.Request
+#close(server)
+server = HTTP.serve("0.0.0.0", 8080) do request::HTTP.Request
     return resp = router(request)
 end
 
