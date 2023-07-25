@@ -86,3 +86,61 @@ function eval_move(A; max_iterations=1000)
     #display(best_position)
     return findmin(best_position)[2] |> Tuple
 end
+
+function minimax(A, depth, maximizing_player)
+    if depth == 1 || who_won(A) != Ongoing::Result
+        if who_won(A) == Ongoing::Result
+            return 0
+        end
+        return who_won(A) |> Int
+    end
+
+    if maximizing_player
+        max_eval = -Inf
+        for i in 1:9
+            if A[i] == 0
+                a = copy(A)
+                a[i] = 1
+                eval = minimax(a, depth - 1, false)
+
+                max_eval = max(max_eval, eval)
+            end
+        end
+        return max_eval
+    else
+        min_eval = Inf
+        for i in 1:9
+            if A[i] == 0
+
+                a = copy(A)
+                a[i] = -1
+                eval = minimax(a, depth - 1, true)
+
+                min_eval = min(min_eval, eval)
+            end
+        end
+        return min_eval
+    end
+end
+
+function find_best_move(A)
+    best_eval = Inf
+    best_move = 1
+
+    for i in 1:9
+        if A[i] == 0
+            a = copy(A)
+            a[i] = -1
+            eval = minimax(a, 9, true)
+
+            if eval < best_eval
+                best_eval = eval
+                best_move = i
+            end
+        end
+    end
+
+    return best_move
+end
+
+
